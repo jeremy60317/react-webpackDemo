@@ -7,9 +7,9 @@ import rootSaga from './sagas'
 import rootReducer from './reducers'
 
 const bindMiddleware = (middleware) => {
-  // if (process.env.NODE_ENV !== 'production') {
-  return composeWithDevTools(applyMiddleware(...middleware))
-  // }
+  if (process.env.NODE_ENV !== 'production') {
+    return composeWithDevTools(applyMiddleware(...middleware))
+  }
   return applyMiddleware(...middleware)
 }
 

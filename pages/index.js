@@ -7,18 +7,33 @@ import * as testAction from '../actions/testAction'
 const Home = () => {
   const dispatch = useDispatch()
   const testReducer = useSelector((state) => state.testReducer)
+  const {
+    data: { data },
+  } = testReducer
+
   useEffect(() => {
     //test useEffect
     dispatch(testAction.testActionText('909090'))
   }, [])
-  return <div>{testReducer.text}</div>
+
+  return (
+    <div>
+      {data.map((itm) => (
+        <div key={itm.title}>{itm.title}</div>
+      ))}
+    </div>
+  )
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
-    console.log('store', store)
-    store.dispatch(testAction.fetchListApiSaga())
-
+    console.log('store', store.getState())
+    const testReducer = store.getState().testReducer
+    if (testReducer.data === null) {
+      console.log('hihi')
+      store.dispatch(testAction.fetchListApiSaga())
+      store.dispatch(END)
+    }
     await store.sagaTask.toPromise()
   }
 )

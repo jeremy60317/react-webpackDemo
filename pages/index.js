@@ -27,10 +27,8 @@ const Home = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
-    console.log('store', store.getState())
     const testReducer = store.getState().testReducer
     if (testReducer.data === null) {
-      console.log('hihi')
       store.dispatch(testAction.fetchListApiSaga())
       store.dispatch(END)
     }

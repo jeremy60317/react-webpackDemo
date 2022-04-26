@@ -14,11 +14,16 @@ const bindMiddleware = (middleware) => {
 }
 
 export const makeStore = (context) => {
+  const initialState = {}
   const sagaMiddleware = createSagaMiddleware()
-  const store = createStore(rootReducer, bindMiddleware([sagaMiddleware]))
+  const store = createStore(
+    rootReducer,
+    initialState,
+    bindMiddleware([sagaMiddleware])
+  )
 
   store.sagaTask = sagaMiddleware.run(rootSaga)
   return store
 }
 
-export const wrapper = createWrapper(makeStore, { debug: true })
+export const wrapper = createWrapper(makeStore, { debug: false })
